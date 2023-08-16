@@ -1,13 +1,12 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
 import { ChangeEvent, useState } from "react";
-import { NutritionInfo, Product } from "./types/types";
 import { translate } from "./types/translations";
 
 const AddProduct = (props: {
-    loadProduct: (name: string, nutritionInfo: string) => void;
+  loadProduct: (name: string, nutritionInfo: string) => void;
 }) => {
-  const [newProduct, setNewProduct] = useState<Product>();
+  const [productName, setProductName] = useState("");
   const [nutritionInfo, setNutritionInfo] = useState("");
 
   return (
@@ -16,43 +15,41 @@ const AddProduct = (props: {
         <input
           type="text"
           className="form-control"
-          placeholder={translate('productName')}
-          aria-label="name"
-          aria-describedby="basic-addon1"
+          value={productName}
+          placeholder={translate("productName")}
           onChange={(event: ChangeEvent<HTMLInputElement>) => {
-            const productUpdate: Product = { ...newProduct };
-            productUpdate.name = event.currentTarget.value;
-            setNewProduct(productUpdate);
+            setProductName(event.currentTarget.value);
           }}
         />
       </div>
       <div className="input-group">
-        <span className="input-group-text">{translate('uploadClipBoard')}</span>
+        <span className="input-group-text">{translate("uploadClipBoard")}</span>
         <textarea
           className="form-control"
+          value={nutritionInfo}
           onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
             setNutritionInfo(event.target.value);
           }}
         ></textarea>
       </div>
-      <span className="text-white">{translate('selectFromFile')}</span>
+      <span className="text-white">{translate("selectFromFile")}</span>
       <div className="input-group mb-3">
         <input type="file" className="form-control" id="inputGroupFile02" />
         <label className="input-group-text" htmlFor="inputGroupFile02">
-          {translate('upload')}
+          {translate("upload")}
         </label>
       </div>
       <div className="d-flex justify-content-end">
         <button
           onClick={() => {
-            props.loadProduct(newProduct?.name ?? '', nutritionInfo);
-            setNutritionInfo('');
-            setNewProduct({});
+            props.loadProduct(productName, nutritionInfo);
+            setNutritionInfo("");
+            setProductName("");
           }}
           type="button"
           className="btn btn-primary"
         >
-          {translate('addProduct')}
+          {translate("addProduct")}
         </button>
       </div>
     </div>

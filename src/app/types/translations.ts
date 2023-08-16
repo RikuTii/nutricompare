@@ -15,7 +15,7 @@ translations["fi"] = {
   calories: "Kalorit",
   carbohydrates: "Hiilihydraatit",
   fat: "Rasva",
-  sugar: "Sokeri",
+  sugar: "sokereita",
   salt: "Suola",
 
   //ui
@@ -33,7 +33,7 @@ translations["en"] = {
   calories: "Calories",
   carbohydrates: "Carbohydrates",
   fat: "Fat",
-  sugar: "Sugar",
+  sugar: "Sugars",
   salt: "Salt",
 
     //ui
