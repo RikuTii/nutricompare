@@ -12,6 +12,7 @@ export type NutritionInfo = {
 
 
 export type Product = {
+    id: number;
     name?: string;
     info?: NutritionInfo;
     nutriScore?: string;

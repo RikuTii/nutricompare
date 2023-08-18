@@ -6,18 +6,23 @@ import "./globals.css";
 import { useState } from "react";
 import { NutritionInfo, Product } from "./types/types";
 import { translate, updateLocale } from "./types/translations";
-import AddProduct from "./AddProduct";
-import { parseTargetValue, parseCalories } from "./ProductParser";
-import ProductTable from "./ProductTable";
-import { getNutriScore } from "./NutriScoreCalculator";
+import AddProduct from "./components/AddProduct";
+import { parseTargetValue, parseCalories } from "./helpers/ProductParser";
+import ProductTable from "./components/ProductTable";
+import { getNutriScore } from "./helpers/NutriScoreCalculator";
 
 export default function Home() {
   const [products, setProducts] = useState<Array<Product>>([]);
   const [localeState, setLocaleState] = useState(0);
 
-  const loadProduct = (name: string, nutritionInfo: string, isBeverage: number) => {
+  const loadProduct = (
+    name: string,
+    nutritionInfo: string,
+    isBeverage: number
+  ) => {
     const addProduct: Product = {
       name: name,
+      id: products.length + 1,
       info: {
         calories: parseCalories(nutritionInfo),
         protein: parseTargetValue(nutritionInfo, translate("protein")),
@@ -26,17 +31,23 @@ export default function Home() {
           translate("carbohydrates")
         ),
         totalFat: parseTargetValue(nutritionInfo, translate("fat")),
-        saturatedFat: parseTargetValue(nutritionInfo, translate("saturatedFat")),
+        saturatedFat: parseTargetValue(
+          nutritionInfo,
+          translate("saturatedFat")
+        ),
         sugars: parseTargetValue(nutritionInfo, translate("sugar")),
         fibre: parseTargetValue(nutritionInfo, translate("fibre")),
         salt: parseTargetValue(nutritionInfo, translate("salt")),
       },
     };
 
-    if(addProduct.info?.fibre === 0) {
-      addProduct.info.fibre = parseTargetValue(nutritionInfo, translate("altFibre"));
+    if (addProduct.info?.fibre === 0) {
+      addProduct.info.fibre = parseTargetValue(
+        nutritionInfo,
+        translate("altFibre")
+      );
     }
-    addProduct.type = isBeverage ? 'beverage' : 'food';
+    addProduct.type = isBeverage ? "beverage" : "food";
 
     addProduct.nutriScore = getNutriScore(addProduct);
     const newProducts = [...products];
@@ -44,14 +55,18 @@ export default function Home() {
     setProducts(newProducts);
   };
 
-  const loadProductDirect = (name: string, nutritionInfo: NutritionInfo, isBeverage: number) => {
+  const loadProductDirect = (
+    name: string,
+    nutritionInfo: NutritionInfo,
+    isBeverage: number
+  ) => {
     const addProduct: Product = {
+      id: products.length + 1,
       name: name,
-      info: nutritionInfo
+      info: nutritionInfo,
     };
 
-    addProduct.type = isBeverage ? 'beverage' : 'food';
-
+    addProduct.type = isBeverage ? "beverage" : "food";
 
     addProduct.nutriScore = getNutriScore(addProduct);
 
@@ -104,7 +119,10 @@ export default function Home() {
           </ul>
         </div>
       </div>
-      <AddProduct loadProduct={loadProduct} loadProductDirect={loadProductDirect} />
+      <AddProduct
+        loadProduct={loadProduct}
+        loadProductDirect={loadProductDirect}
+      />
       <ProductTable products={products} />
     </main>
   );

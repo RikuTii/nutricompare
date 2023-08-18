@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Product } from "./types/types";
-import { translate, updateLocale } from "./types/translations";
+import { Product } from "../types/types";
+import { translate, updateLocale } from "../types/translations";
 
 const ProductTable = (props: { products: Array<Product> }) => {
   const [sorting, setSorting] = useState("");
@@ -67,6 +67,18 @@ const ProductTable = (props: { products: Array<Product> }) => {
           return -1;
         }
       });
+    } else if (type === "nutriscore") {
+      sorted.sort((a: Product, b: Product) => {
+        if (
+          step
+            ? (a.nutriScore ?? "") > (b.nutriScore ?? "")
+            : (b.nutriScore ?? "") > (a.nutriScore ?? "")
+        ) {
+          return 1;
+        } else {
+          return -1;
+        }
+      });
     }
 
     return sorted;
@@ -81,61 +93,32 @@ const ProductTable = (props: { products: Array<Product> }) => {
     <table className="table table-fixed" data-bs-theme="dark">
       <thead>
         <tr>
-          <th
-            scope="col"
-            onClick={() => setSortingType("default")}
-          >
+          <th scope="col" onClick={() => setSortingType("default")}>
             #
           </th>
           <th
             scope="col"
             className="c-pointer"
-
             onClick={() => setSortingType("name")}
           >
             {translate("productName")}{" "}
             {sorting === "name" && (sortingStep ? "▼" : "▲")}
           </th>
-          <th
-            scope="col"
-
-            onClick={() => setSortingType("calories")}
-          >
-            NutriScore{" "}
-            {sorting === "calories" && (sortingStep ? "▼" : "▲")}
+          <th scope="col" onClick={() => setSortingType("nutriscore")}>
+            Nutri-Score {sorting === "nutriscore" && (sortingStep ? "▼" : "▲")}
           </th>
-          <th
-            scope="col"
-
-
-            onClick={() => setSortingType("calories")}
-          >
+          <th scope="col" onClick={() => setSortingType("calories")}>
             {translate("calories")}{" "}
             {sorting === "calories" && (sortingStep ? "▼" : "▲")}
           </th>
-          <th
-            scope="col"
- 
-
-
-            onClick={() => setSortingType("fat")}
-          >
+          <th scope="col" onClick={() => setSortingType("fat")}>
             {translate("fat")} {sorting === "fat" && (sortingStep ? "▼" : "▲")}
           </th>
-          <th
-            scope="col"
-    
-            onClick={() => setSortingType("carbs")}
-          >
+          <th scope="col" onClick={() => setSortingType("carbs")}>
             {translate("carbohydratesUi")}{" "}
             {sorting === "carbs" && (sortingStep ? "▼" : "▲")}
           </th>
-          <th
-            scope="col"
-
-
-            onClick={() => setSortingType("protein")}
-          >
+          <th scope="col" onClick={() => setSortingType("protein")}>
             {translate("protein")}{" "}
             {sorting === "protein" && (sortingStep ? "▼" : "▲")}
           </th>
@@ -143,10 +126,10 @@ const ProductTable = (props: { products: Array<Product> }) => {
       </thead>
       <tbody>
         {updateSorting(sorting, sortingStep).map(
-          (product: Product, index: number) => {
+          (product: Product) => {
             return (
-              <tr key={index}>
-                <th scope="row">{index}</th>
+              <tr key={product.id}>
+                <th scope="row">{product.id}</th>
                 <td>{product.name}</td>
                 <td>{product.nutriScore}</td>
                 <td>{product.info?.calories}</td>

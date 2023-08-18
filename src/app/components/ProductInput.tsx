@@ -1,8 +1,8 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
 import { ChangeEvent, useState, useEffect } from "react";
-import { translate } from "./types/translations";
-import { NutritionInfo } from "./types/types";
+import { translate } from "../types/translations";
+import { NutritionInfo } from "../types/types";
 
 const ProductInput = (props: {
   onInfoUpdate: (nutritionInfo: NutritionInfo) => void;
@@ -59,7 +59,7 @@ const ProductInput = (props: {
                 className="form-control"
                 id="productCalories"
                 value={calories}
-                placeholder={translate("productName")}
+                placeholder={translate("calories")}
                 onChange={(event: ChangeEvent<HTMLInputElement>) =>
                   setCalories(event.target.value)
                 }

@@ -1,4 +1,4 @@
-import { translate } from "./types/translations";
+import { translate } from "../types/translations";
 
 const cleanUpString = (value: string) => {
   return value.replace(/[^0-9,]/gi, "").replace(",", ".");

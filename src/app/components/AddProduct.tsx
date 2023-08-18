@@ -1,8 +1,8 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
 import { ChangeEvent, useEffect, useState } from "react";
-import { translate } from "./types/translations";
-import { NutritionInfo } from "./types/types";
+import { translate } from "../types/translations";
+import { NutritionInfo } from "../types/types";
 import ProductInput from "./ProductInput";
 
 const AddProduct = (props: {
@@ -91,7 +91,7 @@ const AddProduct = (props: {
           className="form-check-input"
           type="checkbox"
           role="switch"
-          value={isBeverage}
+          checked={isBeverage ? true : false}
           id="flexSwitchCheckDefault"
           onClick={e => setIsBeverage(isBeverage ? 0 : 1)}
         />

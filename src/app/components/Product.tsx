@@ -1,4 +1,4 @@
-import { Product } from "./types/types";
+import { Product } from "../types/types";
 
 const ProductView = (props: { product: Product }) => {
   return (
