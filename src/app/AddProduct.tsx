@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { translate } from "./types/translations";
 
 const AddProduct = (props: {
@@ -8,6 +8,29 @@ const AddProduct = (props: {
 }) => {
   const [productName, setProductName] = useState("");
   const [nutritionInfo, setNutritionInfo] = useState("");
+  const [imageFile, setImagefile] = useState<File | null>(null);
+
+  async function postData() {
+    const formData = new FormData();
+    if (imageFile) {
+      formData.append("file", imageFile);
+    }
+    formData.append("language", "fin");
+    formData.append("isTable", "true");
+
+    const response = await fetch("https://api.ocr.space/parse/image", {
+      method: "POST",
+      headers: {
+        apikey: process.env.NEXT_PUBLIC_OCR_API_KEY ?? "",
+      },
+      body: formData,
+    });
+
+    const data = await response.json();
+    if (data && data.IsErroredOnProcessing === false) {
+      props.loadProduct(productName, data.ParsedResults[0].ParsedText);
+    }
+  }
 
   return (
     <div>
@@ -34,20 +57,29 @@ const AddProduct = (props: {
       </div>
       <span className="text-white">{translate("selectFromFile")}</span>
       <div className="input-group mb-3">
-        <input type="file" className="form-control" id="inputGroupFile02" />
-        <label className="input-group-text" htmlFor="inputGroupFile02">
-          {translate("upload")}
-        </label>
+        <input
+          type="file"
+          className="form-control"
+          accept="image/png, image/jpeg"
+          onChange={(e) => {
+            setNutritionInfo("");
+            setImagefile(e.target?.files ? e.target?.files[0] : null);
+          }}
+        />
       </div>
       <div className="d-flex justify-content-end">
         <button
           onClick={() => {
-            props.loadProduct(productName, nutritionInfo);
+            if(imageFile !== null ) {
+            postData();
+            } else {
+              props.loadProduct(productName, nutritionInfo);
+            }
             setNutritionInfo("");
             setProductName("");
           }}
           type="button"
-          className="btn btn-primary"
+          className="btn btn-primary mb-3"
         >
           {translate("addProduct")}
         </button>

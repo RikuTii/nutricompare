@@ -13,10 +13,13 @@ translations["fi"] = {
   energy: "Energia",
   protein: "Proteiini",
   calories: "Kalorit",
-  carbohydrates: "Hiilihydraatit",
+  carbohydrates: "Hiilihydr",
   fat: "Rasva",
   sugar: "sokereita",
   salt: "Suola",
+
+
+  //
 
   //ui
   upload: "Lataa",
@@ -25,7 +28,10 @@ translations["fi"] = {
   chooseFile: "Valitse tiedosto",
   noFile: "Ei valittua tiedostoa",
   addProduct: "Lisää tuote",
-  selectFromFile: "Tai lataa kuva tiedoista"
+  selectFromFile: "Tai lataa kuva tiedoista",
+  sugarUi: 'Sokeri',
+  noInformation: 'Ei tietoa',
+  carbohydratesUi: 'Hiilihydraatit'
 };
 translations["en"] = {
   energy: "Energy",
@@ -43,7 +49,10 @@ translations["en"] = {
     chooseFile: "Select file",
     noFile: "No file selected",
     addProduct: "Add product",
-    selectFromFile: "Or upload picture of the information"
+    selectFromFile: "Or upload picture of the information",
+    sugarUi: 'Sugar',
+    noInformation: 'No info',
+    carbohydratesUi: 'Carbohydrates'
 };
 
 export const translate = (text: string) => {
