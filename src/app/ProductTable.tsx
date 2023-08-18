@@ -78,7 +78,7 @@ const ProductTable = (props: { products: Array<Product> }) => {
   };
 
   return (
-    <table className="table" data-bs-theme="dark">
+    <table className="table table-fixed" data-bs-theme="dark">
       <thead>
         <tr>
           <th
@@ -90,6 +90,7 @@ const ProductTable = (props: { products: Array<Product> }) => {
           <th
             scope="col"
             className="c-pointer"
+
             onClick={() => setSortingType("name")}
           >
             {translate("productName")}{" "}
@@ -97,6 +98,16 @@ const ProductTable = (props: { products: Array<Product> }) => {
           </th>
           <th
             scope="col"
+
+            onClick={() => setSortingType("calories")}
+          >
+            NutriScore{" "}
+            {sorting === "calories" && (sortingStep ? "▼" : "▲")}
+          </th>
+          <th
+            scope="col"
+
+
             onClick={() => setSortingType("calories")}
           >
             {translate("calories")}{" "}
@@ -104,12 +115,16 @@ const ProductTable = (props: { products: Array<Product> }) => {
           </th>
           <th
             scope="col"
+ 
+
+
             onClick={() => setSortingType("fat")}
           >
             {translate("fat")} {sorting === "fat" && (sortingStep ? "▼" : "▲")}
           </th>
           <th
             scope="col"
+    
             onClick={() => setSortingType("carbs")}
           >
             {translate("carbohydratesUi")}{" "}
@@ -117,6 +132,8 @@ const ProductTable = (props: { products: Array<Product> }) => {
           </th>
           <th
             scope="col"
+
+
             onClick={() => setSortingType("protein")}
           >
             {translate("protein")}{" "}
@@ -131,6 +148,7 @@ const ProductTable = (props: { products: Array<Product> }) => {
               <tr key={index}>
                 <th scope="row">{index}</th>
                 <td>{product.name}</td>
+                <td>{product.nutriScore}</td>
                 <td>{product.info?.calories}</td>
                 <td>{product.info?.totalFat}</td>
                 <td>{product.info?.carbohydrates}</td>

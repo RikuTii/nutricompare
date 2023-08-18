@@ -15,9 +15,11 @@ translations["fi"] = {
   calories: "Kalorit",
   carbohydrates: "Hiilihydr",
   fat: "Rasva",
-  sugar: "sokereita",
+  sugar: "soker",
   salt: "Suola",
-
+  fibre: "Kuitu",
+  altFibre: "kuidut",
+  saturatedFat: "Tyydytty",
 
   //
 
@@ -29,9 +31,13 @@ translations["fi"] = {
   noFile: "Ei valittua tiedostoa",
   addProduct: "Lisää tuote",
   selectFromFile: "Tai lataa kuva tiedoista",
-  sugarUi: 'Sokeri',
-  noInformation: 'Ei tietoa',
-  carbohydratesUi: 'Hiilihydraatit'
+  sugarUi: "Sokeri",
+  noInformation: "Ei tietoa",
+  carbohydratesUi: "Hiilihydraatit",
+  inputManually: "Syötä manuaalisesti",
+  saturatedFatUi: "Tyydyttynyt rasva",
+  drinkable: "Juotava",
+
 };
 translations["en"] = {
   energy: "Energy",
@@ -39,20 +45,27 @@ translations["en"] = {
   calories: "Calories",
   carbohydrates: "Carbohydrates",
   fat: "Fat",
-  sugar: "Sugars",
+  sugar: "Sugar",
   salt: "Salt",
+  fibre: "Fibre",
+  saturatedFat: "Saturated",
+  altFibre: "Fiber",
 
-    //ui
-    upload: "Upload",
-    productName: "Product name",
-    uploadClipBoard: "Upload from clipboard",
-    chooseFile: "Select file",
-    noFile: "No file selected",
-    addProduct: "Add product",
-    selectFromFile: "Or upload picture of the information",
-    sugarUi: 'Sugar',
-    noInformation: 'No info',
-    carbohydratesUi: 'Carbohydrates'
+  //ui
+  upload: "Upload",
+  productName: "Product name",
+  uploadClipBoard: "Upload from clipboard",
+  chooseFile: "Select file",
+  noFile: "No file selected",
+  addProduct: "Add product",
+  selectFromFile: "Or upload picture of the information",
+  sugarUi: "Sugar",
+  noInformation: "No info",
+  carbohydratesUi: "Carbohydrates",
+  inputManually: "Input manually",
+  saturatedFatUi: "Saturated fat",
+  drinkable: "Drinkable",
+  
 };
 
 export const translate = (text: string) => {

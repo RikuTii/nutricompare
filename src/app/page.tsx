@@ -4,17 +4,18 @@ import "bootstrap/dist/js/bootstrap.min.js";
 import "./globals.css";
 
 import { useState } from "react";
-import { Product } from "./types/types";
+import { NutritionInfo, Product } from "./types/types";
 import { translate, updateLocale } from "./types/translations";
 import AddProduct from "./AddProduct";
 import { parseTargetValue, parseCalories } from "./ProductParser";
 import ProductTable from "./ProductTable";
+import { getNutriScore } from "./NutriScoreCalculator";
 
 export default function Home() {
   const [products, setProducts] = useState<Array<Product>>([]);
   const [localeState, setLocaleState] = useState(0);
 
-  const loadProduct = (name: string, nutritionInfo: string) => {
+  const loadProduct = (name: string, nutritionInfo: string, isBeverage: number) => {
     const addProduct: Product = {
       name: name,
       info: {
@@ -25,9 +26,35 @@ export default function Home() {
           translate("carbohydrates")
         ),
         totalFat: parseTargetValue(nutritionInfo, translate("fat")),
+        saturatedFat: parseTargetValue(nutritionInfo, translate("saturatedFat")),
         sugars: parseTargetValue(nutritionInfo, translate("sugar")),
+        fibre: parseTargetValue(nutritionInfo, translate("fibre")),
+        salt: parseTargetValue(nutritionInfo, translate("salt")),
       },
     };
+
+    if(addProduct.info?.fibre === 0) {
+      addProduct.info.fibre = parseTargetValue(nutritionInfo, translate("altFibre"));
+    }
+    addProduct.type = isBeverage ? 'beverage' : 'food';
+
+    addProduct.nutriScore = getNutriScore(addProduct);
+    const newProducts = [...products];
+    newProducts.push(addProduct);
+    setProducts(newProducts);
+  };
+
+  const loadProductDirect = (name: string, nutritionInfo: NutritionInfo, isBeverage: number) => {
+    const addProduct: Product = {
+      name: name,
+      info: nutritionInfo
+    };
+
+    addProduct.type = isBeverage ? 'beverage' : 'food';
+
+
+    addProduct.nutriScore = getNutriScore(addProduct);
+
     const newProducts = [...products];
     newProducts.push(addProduct);
     setProducts(newProducts);
@@ -77,7 +104,7 @@ export default function Home() {
           </ul>
         </div>
       </div>
-      <AddProduct loadProduct={loadProduct} />
+      <AddProduct loadProduct={loadProduct} loadProductDirect={loadProductDirect} />
       <ProductTable products={products} />
     </main>
   );

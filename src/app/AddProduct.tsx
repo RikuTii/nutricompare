@@ -2,15 +2,22 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
 import { ChangeEvent, useEffect, useState } from "react";
 import { translate } from "./types/translations";
+import { NutritionInfo } from "./types/types";
+import ProductInput from "./ProductInput";
 
 const AddProduct = (props: {
-  loadProduct: (name: string, nutritionInfo: string) => void;
+  loadProduct: (name: string, nutritionInfo: string, isBeverage: number) => void;
+  loadProductDirect: (name: string, nutritionInfo: NutritionInfo, isBeverage: number) => void;
 }) => {
   const [productName, setProductName] = useState("");
   const [nutritionInfo, setNutritionInfo] = useState("");
+  const [manualNutritionInfo, setManualNutritionInfo] =
+    useState<NutritionInfo>();
   const [imageFile, setImagefile] = useState<File | null>(null);
+  const [showInput, setShowInput] = useState(false);
+  const [isBeverage, setIsBeverage] = useState(0);
 
-  async function postData() {
+  async function parseNutritionFromImage() {
     const formData = new FormData();
     if (imageFile) {
       formData.append("file", imageFile);
@@ -28,9 +35,13 @@ const AddProduct = (props: {
 
     const data = await response.json();
     if (data && data.IsErroredOnProcessing === false) {
-      props.loadProduct(productName, data.ParsedResults[0].ParsedText);
+      props.loadProduct(productName, data.ParsedResults[0].ParsedText, isBeverage);
     }
   }
+
+  const loadProductFromInfo = (info: NutritionInfo) => {
+    props.loadProductDirect(productName, info, isBeverage);
+  };
 
   return (
     <div>
@@ -67,16 +78,46 @@ const AddProduct = (props: {
           }}
         />
       </div>
+      <span className="text-white" onClick={() => setShowInput(!showInput)}>
+        {translate("inputManually")}
+      </span>
+
+      {showInput && (
+        <ProductInput onInfoUpdate={(info) => setManualNutritionInfo(info)} />
+      )}
+
+      <div className="form-check form-switch mt-2">
+        <input
+          className="form-check-input"
+          type="checkbox"
+          role="switch"
+          value={isBeverage}
+          id="flexSwitchCheckDefault"
+          onClick={e => setIsBeverage(isBeverage ? 0 : 1)}
+        />
+        <label
+          className="form-check-label text-white"
+          htmlFor="flexSwitchCheckDefault"
+        >
+          {translate("drinkable")}
+        </label>
+      </div>
+
       <div className="d-flex justify-content-end">
         <button
           onClick={() => {
-            if(imageFile !== null ) {
-            postData();
+            if (imageFile !== null) {
+              parseNutritionFromImage();
             } else {
-              props.loadProduct(productName, nutritionInfo);
+              if (nutritionInfo === "" && manualNutritionInfo) {
+                loadProductFromInfo(manualNutritionInfo);
+              } else {
+                props.loadProduct(productName, nutritionInfo, isBeverage);
+              }
             }
             setNutritionInfo("");
             setProductName("");
+            setIsBeverage(0);
           }}
           type="button"
           className="btn btn-primary mb-3"
