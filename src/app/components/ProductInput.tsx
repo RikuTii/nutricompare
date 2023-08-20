@@ -1,5 +1,3 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./globals.css";
 import { ChangeEvent, useState, useEffect } from "react";
 import { translate } from "../types/translations";
 import { NutritionInfo } from "../types/types";

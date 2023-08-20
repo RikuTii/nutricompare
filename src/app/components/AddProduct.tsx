@@ -1,5 +1,3 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./globals.css";
 import { ChangeEvent, useEffect, useState } from "react";
 import { translate } from "../types/translations";
 import { NutritionInfo } from "../types/types";
@@ -25,15 +23,13 @@ const AddProduct = (props: {
     formData.append("language", "fin");
     formData.append("isTable", "true");
 
-    const response = await fetch("https://api.ocr.space/parse/image", {
+    const response = await fetch("/api/processImage", {
       method: "POST",
-      headers: {
-        apikey: process.env.NEXT_PUBLIC_OCR_API_KEY ?? "",
-      },
       body: formData,
     });
 
     const data = await response.json();
+
     if (data && data.IsErroredOnProcessing === false) {
       props.loadProduct(productName, data.ParsedResults[0].ParsedText, isBeverage);
     }
@@ -93,7 +89,7 @@ const AddProduct = (props: {
           role="switch"
           checked={isBeverage ? true : false}
           id="flexSwitchCheckDefault"
-          onClick={e => setIsBeverage(isBeverage ? 0 : 1)}
+          onChange={e => setIsBeverage(isBeverage ? 0 : 1)}
         />
         <label
           className="form-check-label text-white"
