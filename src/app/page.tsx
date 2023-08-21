@@ -57,7 +57,7 @@ export default function Home() {
     setProducts(newProducts);
   };
 
-  const removeProduct = (num: number) => {
+  const removeCompareProduct = (num: number) => {
     if (num === 0) {
       const newCompareProducts = [...compareProducts];
       newCompareProducts.pop();
@@ -86,6 +86,17 @@ export default function Home() {
 
     const newProducts = [...products];
     newProducts.push(addProduct);
+    setProducts(newProducts);
+  };
+
+  const removeProduct = (product: Product) => {
+    const newProducts = [...products];
+    newProducts.splice(product.id - 1, 1);
+
+    newProducts.forEach((product, index) => {
+      product.id = index + 1;
+    });
+
     setProducts(newProducts);
   };
 
@@ -143,10 +154,11 @@ export default function Home() {
             setCompareProducts([...compareProducts, product])
           } 
         }}
+        removeProduct={removeProduct}
         products={products}
       />
       <ProductsCompare
-        removeProduct={removeProduct}
+        removeProduct={removeCompareProduct}
         productA={compareProducts.at(0)}
         productB={
           compareProducts.length > 0 ? compareProducts.at(1) : undefined

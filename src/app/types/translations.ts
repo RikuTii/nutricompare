@@ -39,6 +39,7 @@ translations["fi"] = {
   drinkable: "Juotava",
   compare: "Vertaile",
   product: "Tuote",
+  remove: "Poista",
 
 };
 translations["en"] = {
@@ -69,6 +70,7 @@ translations["en"] = {
   drinkable: "Drinkable",
   compare: "Compare",
   product: "Product",
+  remove: "Remove",
 };
 
 export const translate = (text: string) => {

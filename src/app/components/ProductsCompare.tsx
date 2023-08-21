@@ -38,14 +38,21 @@ const ProductsCompare = (props: {
     const b = Object.keys(props.productB.info).findIndex((e) => e === key);
     if (a < 0 || b < 0) return { color: "green" };
 
-    const value =
+    let value =
       Object.values(props.productA.info)[a] -
       Object.values(props.productB.info)[b];
+
+    const betterProduct = getBetterProduct();
+    if (betterProduct && betterProduct?.id === props.productB.id) {
+      value =
+        Object.values(props.productB.info)[b] -
+        Object.values(props.productA.info)[a];
+    }
 
     if (key === "protein" || key === "fibre") {
       if (value === 0) {
         return { color: "gray" };
-      } else if (value < 0) {
+      } else if (value > 0) {
         return { color: "green" };
       }
 
@@ -54,7 +61,7 @@ const ProductsCompare = (props: {
 
     if (value === 0) {
       return { color: "gray" };
-    } else if (value > 0) {
+    } else if (value < 0) {
       return { color: "green" };
     }
     return { color: "red" };
@@ -65,9 +72,9 @@ const ProductsCompare = (props: {
     betterProduct?.id === props.productA?.id ? props.productB : props.productA;
 
   return (
-    <div className="row">
+    <div className="row m-0">
       <div className={styles.Productframe}>
-        <div className={styles.ProductRow} style={{marginTop: 10}}>
+        <div className={styles.ProductRow} style={{ marginTop: 10 }}>
           <div className="col">
             <p>
               {betterProduct?.name ? betterProduct.name : translate("product")}{" "}
@@ -230,7 +237,7 @@ const ProductsCompare = (props: {
       </div>
 
       <div className={styles.Productframe}>
-        <div className={styles.ProductRow} style={{marginTop: 10}}>
+        <div className={styles.ProductRow} style={{ marginTop: 10 }}>
           <div className="col">
             <p>
               {compareProduct?.name

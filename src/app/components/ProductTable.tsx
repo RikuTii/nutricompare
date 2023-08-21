@@ -5,6 +5,7 @@ import { translate, updateLocale } from "../types/translations";
 const ProductTable = (props: {
   products: Array<Product>;
   addCompareProduct: (product: Product) => void;
+  removeProduct: (product: Product) => void;
 }) => {
   const [sorting, setSorting] = useState("");
   const [sortingStep, setSortingStep] = useState(0);
@@ -93,7 +94,7 @@ const ProductTable = (props: {
   };
 
   return (
-    <table className="table table-fixed" data-bs-theme="dark">
+    <table className="table" data-bs-theme="dark">
       <thead>
         <tr>
           <th scope="col" onClick={() => setSortingType("default")}>
@@ -128,7 +129,9 @@ const ProductTable = (props: {
           <th>
             {translate("compare")}
           </th>
-
+          <th>
+            {translate("remove")}
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -142,7 +145,8 @@ const ProductTable = (props: {
               <td>{product.info?.totalFat}</td>
               <td>{product.info?.carbohydrates}</td>
               <td>{product.info?.protein}</td>
-              <td onClick={e => props.addCompareProduct(product)}className="c-pointer">⋛</td>
+              <td onClick={e => props.addCompareProduct(product)} className="c-pointer">⋛</td>
+              <td onClick={e => props.removeProduct(product)} className="c-pointer">X</td>
             </tr>
           );
         })}
