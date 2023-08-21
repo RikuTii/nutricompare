@@ -85,7 +85,7 @@ const ProductsCompare = (props: {
             {props.productA && (
               <div
                 className={styles.RemoveButton}
-                onClick={(e) => props.removeProduct(0)}
+                onClick={(e) => props.removeProduct(betterProduct?.id ?? 0)}
               >
                 <span className="text-black">X</span>
               </div>
@@ -251,7 +251,7 @@ const ProductsCompare = (props: {
             <div className="col col-md-2 d-flex justify-content-end">
               <div
                 className={styles.RemoveButton}
-                onClick={(e) => props.removeProduct(1)}
+                onClick={(e) => props.removeProduct(compareProduct?.id ?? 0)}
               >
                 <span className="text-black">X</span>
               </div>

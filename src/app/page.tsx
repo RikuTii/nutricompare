@@ -58,15 +58,10 @@ export default function Home() {
   };
 
   const removeCompareProduct = (num: number) => {
-    if (num === 0) {
-      const newCompareProducts = [...compareProducts];
-      newCompareProducts.pop();
-      setCompareProducts(newCompareProducts);
-    } else {
-      const newCompareProducts = [...compareProducts];
-      const compared = newCompareProducts.slice(0, 1);
-      setCompareProducts(compared);
-    }
+    const newCompareProducts = [...compareProducts];
+    const index = compareProducts.findIndex((e) => e.id === num);
+    newCompareProducts.splice(index, 1);
+    setCompareProducts(newCompareProducts);
   };
 
   const loadProductDirect = (
@@ -150,9 +145,14 @@ export default function Home() {
       />
       <ProductTable
         addCompareProduct={(product) => {
-          if(compareProducts && compareProducts.findIndex(e => e.id === product.id) === -1) {
-            setCompareProducts([...compareProducts, product])
-          } 
+          if (
+            compareProducts &&
+            compareProducts.findIndex((e) => e.id === product.id) === -1
+          ) {
+            if (compareProducts.length < 2) {
+              setCompareProducts([...compareProducts, product]);
+            }
+          }
         }}
         removeProduct={removeProduct}
         products={products}
