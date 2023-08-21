@@ -1,0 +1,32 @@
+.Productframe {
+    border: 2px solid white;
+    max-width: 350px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    color: white;
+
+}
+
+.ProductRow {
+    min-height: 40px;
+    flex-direction: row;
+    display: flex;
+    columns: 3;
+}
+
+.ProductLabel {
+    padding: 4px;
+}
+
+.RemoveButton {
+    background-color: red;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+}

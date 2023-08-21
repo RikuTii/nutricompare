@@ -10,9 +10,11 @@ import AddProduct from "./components/AddProduct";
 import { parseTargetValue, parseCalories } from "./helpers/ProductParser";
 import ProductTable from "./components/ProductTable";
 import { getNutriScore } from "./helpers/NutriScoreCalculator";
+import ProductsCompare from "./components/ProductsCompare";
 
 export default function Home() {
   const [products, setProducts] = useState<Array<Product>>([]);
+  const [compareProducts, setCompareProducts] = useState<Array<Product>>([]);
   const [localeState, setLocaleState] = useState(0);
 
   const loadProduct = (
@@ -53,6 +55,18 @@ export default function Home() {
     const newProducts = [...products];
     newProducts.push(addProduct);
     setProducts(newProducts);
+  };
+
+  const removeProduct = (num: number) => {
+    if (num === 0) {
+      const newCompareProducts = [...compareProducts];
+      newCompareProducts.pop();
+      setCompareProducts(newCompareProducts);
+    } else {
+      const newCompareProducts = [...compareProducts];
+      const compared = newCompareProducts.slice(0, 1);
+      setCompareProducts(compared);
+    }
   };
 
   const loadProductDirect = (
@@ -123,7 +137,21 @@ export default function Home() {
         loadProduct={loadProduct}
         loadProductDirect={loadProductDirect}
       />
-      <ProductTable products={products} />
+      <ProductTable
+        addCompareProduct={(product) => {
+          if(compareProducts && compareProducts.findIndex(e => e.id === product.id) === -1) {
+            setCompareProducts([...compareProducts, product])
+          } 
+        }}
+        products={products}
+      />
+      <ProductsCompare
+        removeProduct={removeProduct}
+        productA={compareProducts.at(0)}
+        productB={
+          compareProducts.length > 0 ? compareProducts.at(1) : undefined
+        }
+      />
     </main>
   );
 }

@@ -2,15 +2,25 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { translate } from "../types/translations";
 import { NutritionInfo } from "../types/types";
 import ProductInput from "./ProductInput";
+import { parseCalories, parseTargetValue } from "../helpers/ProductParser";
 
 const AddProduct = (props: {
-  loadProduct: (name: string, nutritionInfo: string, isBeverage: number) => void;
-  loadProductDirect: (name: string, nutritionInfo: NutritionInfo, isBeverage: number) => void;
+  loadProduct: (
+    name: string,
+    nutritionInfo: string,
+    isBeverage: number
+  ) => void;
+  loadProductDirect: (
+    name: string,
+    nutritionInfo: NutritionInfo,
+    isBeverage: number
+  ) => void;
 }) => {
   const [productName, setProductName] = useState("");
   const [nutritionInfo, setNutritionInfo] = useState("");
   const [manualNutritionInfo, setManualNutritionInfo] =
     useState<NutritionInfo>();
+  const [loadInfo, setLoadInfo] = useState<NutritionInfo>();
   const [imageFile, setImagefile] = useState<File | null>(null);
   const [showInput, setShowInput] = useState(false);
   const [isBeverage, setIsBeverage] = useState(0);
@@ -31,12 +41,38 @@ const AddProduct = (props: {
     const data = await response.json();
 
     if (data && data.IsErroredOnProcessing === false) {
-      props.loadProduct(productName, data.ParsedResults[0].ParsedText, isBeverage);
+      props.loadProduct(
+        productName,
+        data.ParsedResults[0].ParsedText,
+        isBeverage
+      );
     }
   }
 
   const loadProductFromInfo = (info: NutritionInfo) => {
     props.loadProductDirect(productName, info, isBeverage);
+  };
+
+  const onClipBoardDataLoaded = (data: string) => {
+    if (data === "") {
+      setLoadInfo(undefined);
+    }
+    const info: NutritionInfo = {
+      calories: parseCalories(data),
+      protein: parseTargetValue(data, translate("protein")),
+      carbohydrates: parseTargetValue(data, translate("carbohydrates")),
+      totalFat: parseTargetValue(data, translate("fat")),
+      saturatedFat: parseTargetValue(data, translate("saturatedFat")),
+      sugars: parseTargetValue(data, translate("sugar")),
+      fibre: parseTargetValue(data, translate("fibre")),
+      salt: parseTargetValue(data, translate("salt")),
+    };
+
+    if (info.fibre === 0) {
+      info.fibre = parseTargetValue(data, translate("altFibre"));
+    }
+
+    setLoadInfo(info);
   };
 
   return (
@@ -59,6 +95,7 @@ const AddProduct = (props: {
           value={nutritionInfo}
           onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
             setNutritionInfo(event.target.value);
+            onClipBoardDataLoaded(event.target.value);
           }}
         ></textarea>
       </div>
@@ -79,7 +116,10 @@ const AddProduct = (props: {
       </span>
 
       {showInput && (
-        <ProductInput onInfoUpdate={(info) => setManualNutritionInfo(info)} />
+        <ProductInput
+          nutritionInfo={loadInfo}
+          onInfoUpdate={(info) => setManualNutritionInfo(info)}
+        />
       )}
 
       <div className="form-check form-switch mt-2">
@@ -89,7 +129,7 @@ const AddProduct = (props: {
           role="switch"
           checked={isBeverage ? true : false}
           id="flexSwitchCheckDefault"
-          onChange={e => setIsBeverage(isBeverage ? 0 : 1)}
+          onChange={(e) => setIsBeverage(isBeverage ? 0 : 1)}
         />
         <label
           className="form-check-label text-white"
@@ -114,6 +154,7 @@ const AddProduct = (props: {
             setNutritionInfo("");
             setProductName("");
             setIsBeverage(0);
+            onClipBoardDataLoaded("");
           }}
           type="button"
           className="btn btn-primary mb-3"

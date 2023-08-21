@@ -2,7 +2,10 @@ import { useState } from "react";
 import { Product } from "../types/types";
 import { translate, updateLocale } from "../types/translations";
 
-const ProductTable = (props: { products: Array<Product> }) => {
+const ProductTable = (props: {
+  products: Array<Product>;
+  addCompareProduct: (product: Product) => void;
+}) => {
   const [sorting, setSorting] = useState("");
   const [sortingStep, setSortingStep] = useState(0);
   const updateSorting = (type: string, step: number) => {
@@ -122,24 +125,27 @@ const ProductTable = (props: { products: Array<Product> }) => {
             {translate("protein")}{" "}
             {sorting === "protein" && (sortingStep ? "▼" : "▲")}
           </th>
+          <th>
+            {translate("compare")}
+          </th>
+
         </tr>
       </thead>
       <tbody>
-        {updateSorting(sorting, sortingStep).map(
-          (product: Product) => {
-            return (
-              <tr key={product.id}>
-                <th scope="row">{product.id}</th>
-                <td>{product.name}</td>
-                <td>{product.nutriScore}</td>
-                <td>{product.info?.calories}</td>
-                <td>{product.info?.totalFat}</td>
-                <td>{product.info?.carbohydrates}</td>
-                <td>{product.info?.protein}</td>
-              </tr>
-            );
-          }
-        )}
+        {updateSorting(sorting, sortingStep).map((product: Product) => {
+          return (
+            <tr key={product.id}>
+              <th scope="row">{product.id}</th>
+              <td>{product.name}</td>
+              <td>{product.nutriScore}</td>
+              <td>{product.info?.calories}</td>
+              <td>{product.info?.totalFat}</td>
+              <td>{product.info?.carbohydrates}</td>
+              <td>{product.info?.protein}</td>
+              <td onClick={e => props.addCompareProduct(product)}className="c-pointer">⋛</td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );

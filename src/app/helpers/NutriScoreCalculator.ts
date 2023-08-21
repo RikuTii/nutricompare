@@ -15,31 +15,50 @@ const nutriTableBeverage = {
 
 export const getNutriScore = (product: Product) => {
   if (!product.info) return "E";
-  const a =
+  const a = Math.floor(
     product.info.calories /
-    (product.type === "food" ? nutriTable["cal"] : nutriTableBeverage["cal"]);
-  const b =
+      (product.type === "food" ? nutriTable["cal"] : nutriTableBeverage["cal"])
+  );
+  const b = Math.floor(
     product.info.sugars /
-    (product.type === "food"
-      ? nutriTable["sugar"]
-      : nutriTableBeverage["sugar"]);
-  const c = product.info.saturatedFat ?? 1 / nutriTable["fat"];
+      (product.type === "food"
+        ? nutriTable["sugar"]
+        : nutriTableBeverage["sugar"])
+  );
+  const c = Math.floor((product.info.saturatedFat ?? 1) / nutriTable["fat"]);
   let sodium = 0.1;
 
   if (product.info?.salt) {
-    sodium = product.info?.salt * 1000 * 0.4;
+    sodium = product.info.salt * 1000 * 0.4;
   }
 
-  const d = sodium / nutriTable["salt"];
+  const d = Math.floor(sodium / nutriTable["salt"]);
 
   const e = 0; //fruit/vegetable amount for beverages
-  const f = Math.min(product.info?.fibre ?? 1 / nutriTable["fibre"], 5);
-  const g = Math.min(product.info.protein ?? 1 / nutriTable["protein"], 5);
+  const f = Math.min(
+    Math.floor(product.info.fibre ?? 1 / nutriTable["fibre"]),
+    5
+  );
+
+  const g = Math.min(
+    Math.floor(product.info.protein / nutriTable["protein"]),
+    5
+  );
 
   const n = a + b + c + d;
-  const p = e + f + g;
+  let p = e + f + g;
 
-  const total = Math.floor(n - p);
+  if (product.type === "food") {
+    if (n >= 11) {
+      console.log("n is", n, "delta", p - g);
+
+      if (p - g < 5) {
+        p = p - g;
+      }
+    }
+  }
+
+  const total = Math.ceil(n - p);
 
   if (product.type === "beverage") {
     if (total == 0) {

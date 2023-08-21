@@ -37,6 +37,8 @@ translations["fi"] = {
   inputManually: "Syötä manuaalisesti",
   saturatedFatUi: "Tyydyttynyt rasva",
   drinkable: "Juotava",
+  compare: "Vertaile",
+  product: "Tuote",
 
 };
 translations["en"] = {
@@ -65,7 +67,8 @@ translations["en"] = {
   inputManually: "Input manually",
   saturatedFatUi: "Saturated fat",
   drinkable: "Drinkable",
-  
+  compare: "Compare",
+  product: "Product",
 };
 
 export const translate = (text: string) => {

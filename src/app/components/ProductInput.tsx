@@ -3,6 +3,7 @@ import { translate } from "../types/translations";
 import { NutritionInfo } from "../types/types";
 
 const ProductInput = (props: {
+  nutritionInfo: NutritionInfo | undefined;
   onInfoUpdate: (nutritionInfo: NutritionInfo) => void;
 }) => {
   const [calories, setCalories] = useState("");
@@ -30,6 +31,30 @@ const ProductInput = (props: {
 
 
   useEffect(() => {
+    if(!props.nutritionInfo) {
+      setCalories("");
+      setTotalFat("");
+      setSaturatedFat("");
+      setSugar("");
+      setCarbohydrates("");
+      setSalt("");
+      setFibre("");
+      setProtein("");
+      return;
+    }
+    setCalories(String(props.nutritionInfo?.calories));
+    setTotalFat(String(props.nutritionInfo?.totalFat));
+    setSaturatedFat(String(props.nutritionInfo?.saturatedFat));
+    setSugar(String(props.nutritionInfo?.sugars));
+    setCarbohydrates(String(props.nutritionInfo?.carbohydrates));
+    setSalt(String(props.nutritionInfo?.salt));
+    setFibre(String(props.nutritionInfo?.fibre));
+    setProtein(String(props.nutritionInfo?.protein));
+  
+  }, [props.nutritionInfo]);
+
+
+  useEffect(() => {
     updateNutrition();
   }, [
     calories,
@@ -53,6 +78,7 @@ const ProductInput = (props: {
             </label>
             <div className="input-group mb-3">
               <input
+                min={0}
                 type="number"
                 className="form-control"
                 id="productCalories"
@@ -70,6 +96,7 @@ const ProductInput = (props: {
             </label>
             <div className="input-group mb-3">
               <input
+                min={0}
                 type="number"
                 className="form-control"
                 id="productFat"
@@ -87,6 +114,7 @@ const ProductInput = (props: {
             </label>
             <div className="input-group mb-3">
               <input
+                min={0}
                 type="number"
                 className="form-control"
                 id="saturatedFat"
@@ -105,6 +133,7 @@ const ProductInput = (props: {
             </label>
             <div className="input-group mb-3">
               <input
+                min={0}
                 type="number"
                 className="form-control"
                 id="carbohydrates"
@@ -122,6 +151,7 @@ const ProductInput = (props: {
             </label>
             <div className="input-group mb-3">
               <input
+                min={0}
                 type="number"
                 className="form-control"
                 id="protein"
@@ -139,6 +169,7 @@ const ProductInput = (props: {
             </label>
             <div className="input-group mb-3">
               <input
+                min={0}
                 type="number"
                 className="form-control"
                 id="sugar"
@@ -156,6 +187,7 @@ const ProductInput = (props: {
             </label>
             <div className="input-group mb-3">
               <input
+                min={0}
                 type="number"
                 className="form-control"
                 id="fibre"
@@ -173,6 +205,7 @@ const ProductInput = (props: {
             </label>
             <div className="input-group mb-3">
               <input
+                min={0}
                 type="number"
                 className="form-control"
                 id="salt"
