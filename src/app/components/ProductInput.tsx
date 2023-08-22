@@ -15,23 +15,8 @@ const ProductInput = (props: {
   const [fibre, setFibre] = useState("");
   const [protein, setProtein] = useState("");
 
-  const updateNutrition = () => {
-    const info: NutritionInfo = {
-      calories: Number(calories),
-      totalFat: Number(totalFat),
-      saturatedFat: Number(saturatedFat),
-      sugars: Number(sugar),
-      carbohydrates: Number(carbohydrates),
-      salt: Number(salt),
-      fibre: Number(fibre),
-      protein: Number(protein),
-    };
-    props.onInfoUpdate(info);
-  };
-
-
   useEffect(() => {
-    if(!props.nutritionInfo) {
+    if (!props.nutritionInfo) {
       setCalories("");
       setTotalFat("");
       setSaturatedFat("");
@@ -50,12 +35,20 @@ const ProductInput = (props: {
     setSalt(String(props.nutritionInfo?.salt));
     setFibre(String(props.nutritionInfo?.fibre));
     setProtein(String(props.nutritionInfo?.protein));
-  
   }, [props.nutritionInfo]);
 
-
   useEffect(() => {
-    updateNutrition();
+    const info: NutritionInfo = {
+      calories: Number(calories),
+      totalFat: Number(totalFat),
+      saturatedFat: Number(saturatedFat),
+      sugars: Number(sugar),
+      carbohydrates: Number(carbohydrates),
+      salt: Number(salt),
+      fibre: Number(fibre),
+      protein: Number(protein),
+    };
+    props.onInfoUpdate(info);
   }, [
     calories,
     totalFat,
@@ -65,8 +58,8 @@ const ProductInput = (props: {
     salt,
     fibre,
     protein,
+    props,
   ]);
-
 
   return (
     <div>

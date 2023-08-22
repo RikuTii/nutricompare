@@ -93,65 +93,77 @@ const ProductTable = (props: {
     setSorting(name);
   };
 
+  if (!props.products || !props.products.length) return <></>;
+
   return (
-    <table className="table" data-bs-theme="dark">
-      <thead>
-        <tr>
-          <th scope="col" onClick={() => setSortingType("default")}>
-            #
-          </th>
-          <th
-            scope="col"
-            className="c-pointer"
-            onClick={() => setSortingType("name")}
-          >
-            {translate("productName")}{" "}
-            {sorting === "name" && (sortingStep ? "▼" : "▲")}
-          </th>
-          <th scope="col" onClick={() => setSortingType("nutriscore")}>
-            Nutri-Score {sorting === "nutriscore" && (sortingStep ? "▼" : "▲")}
-          </th>
-          <th scope="col" onClick={() => setSortingType("calories")}>
-            {translate("calories")}{" "}
-            {sorting === "calories" && (sortingStep ? "▼" : "▲")}
-          </th>
-          <th scope="col" onClick={() => setSortingType("fat")}>
-            {translate("fat")} {sorting === "fat" && (sortingStep ? "▼" : "▲")}
-          </th>
-          <th scope="col" onClick={() => setSortingType("carbs")}>
-            {translate("carbohydratesUi")}{" "}
-            {sorting === "carbs" && (sortingStep ? "▼" : "▲")}
-          </th>
-          <th scope="col" onClick={() => setSortingType("protein")}>
-            {translate("protein")}{" "}
-            {sorting === "protein" && (sortingStep ? "▼" : "▲")}
-          </th>
-          <th>
-            {translate("compare")}
-          </th>
-          <th>
-            {translate("remove")}
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {updateSorting(sorting, sortingStep).map((product: Product) => {
-          return (
-            <tr key={product.id}>
-              <th scope="row">{product.id}</th>
-              <td>{product.name}</td>
-              <td>{product.nutriScore}</td>
-              <td>{product.info?.calories}</td>
-              <td>{product.info?.totalFat}</td>
-              <td>{product.info?.carbohydrates}</td>
-              <td>{product.info?.protein}</td>
-              <td onClick={e => props.addCompareProduct(product)} className="c-pointer">⋛</td>
-              <td onClick={e => props.removeProduct(product)} className="c-pointer">X</td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+    <div className="table-responsive mb-4">
+      <table className="table" data-bs-theme="dark">
+        <thead>
+          <tr>
+            <th scope="col" onClick={() => setSortingType("default")}>
+              #
+            </th>
+            <th
+              scope="col"
+              className="c-pointer"
+              onClick={() => setSortingType("name")}
+            >
+              {translate("productName")}{" "}
+              {sorting === "name" && (sortingStep ? "▼" : "▲")}
+            </th>
+            <th scope="col" onClick={() => setSortingType("nutriscore")}>
+              Nutri-Score{" "}
+              {sorting === "nutriscore" && (sortingStep ? "▼" : "▲")}
+            </th>
+            <th scope="col" onClick={() => setSortingType("calories")}>
+              {translate("calories")}{" "}
+              {sorting === "calories" && (sortingStep ? "▼" : "▲")}
+            </th>
+            <th scope="col" onClick={() => setSortingType("fat")}>
+              {translate("fat")}{" "}
+              {sorting === "fat" && (sortingStep ? "▼" : "▲")}
+            </th>
+            <th scope="col" onClick={() => setSortingType("carbs")}>
+              {translate("carbohydratesUi")}{" "}
+              {sorting === "carbs" && (sortingStep ? "▼" : "▲")}
+            </th>
+            <th scope="col" onClick={() => setSortingType("protein")}>
+              {translate("protein")}{" "}
+              {sorting === "protein" && (sortingStep ? "▼" : "▲")}
+            </th>
+            <th>{translate("compare")}</th>
+            <th>{translate("remove")}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {updateSorting(sorting, sortingStep).map((product: Product) => {
+            return (
+              <tr key={product.id}>
+                <th scope="row">{product.id}</th>
+                <td>{product.name}</td>
+                <td>{product.nutriScore}</td>
+                <td>{product.info?.calories}</td>
+                <td>{product.info?.totalFat}</td>
+                <td>{product.info?.carbohydrates}</td>
+                <td>{product.info?.protein}</td>
+                <td
+                  onClick={(e) => props.addCompareProduct(product)}
+                  className="c-pointer"
+                >
+                  ⋛
+                </td>
+                <td
+                  onClick={(e) => props.removeProduct(product)}
+                  className="c-pointer"
+                >
+                  X
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
   );
 };
 

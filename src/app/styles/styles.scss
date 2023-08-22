@@ -1,0 +1,32 @@
+
+@import '/node_modules/bootstrap/scss/functions';
+@import '/node_modules/bootstrap/scss/variables';
+@import '/node_modules/bootstrap/scss/mixins';
+
+.input-clipboard {
+    display: none;
+  }
+
+.input-clipboard-small {
+    display: none;
+  }
+@include media-breakpoint-up(md) {
+    .input-clipboard{
+      display: flex;
+    }
+}
+@include media-breakpoint-down(md) {
+    .input-clipboard-small{
+      display: block;
+    }
+}
+
+.col-table-small {
+    display: block;
+}
+@include media-breakpoint-down(md) {
+    .col-table-small{
+      display: flex;
+      justify-content: flex-end;
+    }
+}

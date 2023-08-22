@@ -1,9 +1,8 @@
 "use client";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.min.js";
 import "./globals.css";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NutritionInfo, Product } from "./types/types";
 import { translate, updateLocale } from "./types/translations";
 import AddProduct from "./components/AddProduct";
@@ -12,10 +11,15 @@ import ProductTable from "./components/ProductTable";
 import { getNutriScore } from "./helpers/NutriScoreCalculator";
 import ProductsCompare from "./components/ProductsCompare";
 
+
 export default function Home() {
   const [products, setProducts] = useState<Array<Product>>([]);
   const [compareProducts, setCompareProducts] = useState<Array<Product>>([]);
   const [localeState, setLocaleState] = useState(0);
+
+  useEffect(() => {
+    import("bootstrap/dist/js/bootstrap");
+  },[]);
 
   const loadProduct = (
     name: string,
@@ -96,7 +100,7 @@ export default function Home() {
   };
 
   return (
-    <main className="flex m-10" style={{ margin: 80 }}>
+    <main className="flex m-10" style={{ margin: 80 }} data-bs-theme="dark">
       <div
         className="d-flex justify-content-center"
         style={{ marginBottom: 20 }}
@@ -106,7 +110,7 @@ export default function Home() {
       <div className="d-flex justify-content-end" style={{ marginBottom: 20 }}>
         <div className="dropdown" data-bs-theme="dark">
           <button
-            className="btn btn-secondary dropdown-toggle"
+            className="btn btn-dark dropdown-toggle"
             type="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"

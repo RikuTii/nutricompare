@@ -3,6 +3,7 @@ import { translate } from "../types/translations";
 import { NutritionInfo } from "../types/types";
 import ProductInput from "./ProductInput";
 import { parseCalories, parseTargetValue } from "../helpers/ProductParser";
+import "../styles/styles.scss";
 
 const AddProduct = (props: {
   loadProduct: (
@@ -30,7 +31,7 @@ const AddProduct = (props: {
     if (imageFile) {
       formData.append("file", imageFile);
     }
-    formData.append("language", "fin");
+    formData.append("language", translate("lang"));
     formData.append("isTable", "true");
 
     const response = await fetch("/api/processImage", {
@@ -56,6 +57,7 @@ const AddProduct = (props: {
   const onClipBoardDataLoaded = (data: string) => {
     if (data === "") {
       setLoadInfo(undefined);
+      return;
     }
     const info: NutritionInfo = {
       calories: parseCalories(data),
@@ -88,10 +90,18 @@ const AddProduct = (props: {
           }}
         />
       </div>
-      <div className="input-group">
-        <span className="input-group-text">{translate("uploadClipBoard")}</span>
+      <div className="input-clipboard-small">
+        <label htmlFor="clipBoardInput" className="text-white custom-class">
+          {translate("uploadClipBoard")}
+        </label>
+      </div>
+      <div className="input-group mb-2">
+        <div className="input-clipboard">
+          <div className="input-group-text">{translate("uploadClipBoard")}</div>
+        </div>
         <textarea
           className="form-control"
+          id="clipBoardInput"
           value={nutritionInfo}
           onChange={(event: ChangeEvent<HTMLTextAreaElement>) => {
             setNutritionInfo(event.target.value);
@@ -111,9 +121,12 @@ const AddProduct = (props: {
           }}
         />
       </div>
-      <span className="text-white" onClick={() => setShowInput(!showInput)}>
+      <button
+        className="btn btn-dark text-white"
+        onClick={() => setShowInput(!showInput)}
+      >
         {translate("inputManually")}
-      </span>
+      </button>
 
       {showInput && (
         <ProductInput
@@ -157,7 +170,7 @@ const AddProduct = (props: {
             onClipBoardDataLoaded("");
           }}
           type="button"
-          className="btn btn-primary mb-3"
+          className="btn btn-outline-primary mb-3"
         >
           {translate("addProduct")}
         </button>

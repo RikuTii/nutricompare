@@ -1,6 +1,7 @@
 import { translate } from "../types/translations";
 import { NutritionInfo, Product } from "../types/types";
 import styles from "../productStyle.module.css";
+import "../styles/styles.scss";
 
 const ProductsCompare = (props: {
   productA?: Product | undefined;
@@ -71,6 +72,8 @@ const ProductsCompare = (props: {
   const compareProduct =
     betterProduct?.id === props.productA?.id ? props.productB : props.productA;
 
+  if (!betterProduct) return <></>;
+
   return (
     <div className="row m-0">
       <div className={styles.Productframe}>
@@ -87,7 +90,10 @@ const ProductsCompare = (props: {
                 className={styles.RemoveButton}
                 onClick={(e) => props.removeProduct(betterProduct?.id ?? 0)}
               >
-                <span className="text-black">X</span>
+                <div className={styles.CrossContainer}>
+                  <span className={styles.RemoveCrossLeft}></span>
+                  <span className={styles.RemoveCrossRight}></span>
+                </div>
               </div>
             )}
           </div>
@@ -96,7 +102,7 @@ const ProductsCompare = (props: {
           <div className="col col-md-6">
             <p>{translate("energy")}</p>
           </div>
-          <div className="col col-md-4">
+          <div className="col col-md-4 col-table-small">
             {betterProduct?.info?.calories} kcal
           </div>
           <div className="col col-md-2 d-flex justify-content-end">
@@ -113,7 +119,9 @@ const ProductsCompare = (props: {
           <div className="col col-md-6">
             <p>{translate("fat")}</p>
           </div>
-          <div className="col col-md-4">{betterProduct?.info?.totalFat} g</div>
+          <div className="col col-md-4 col-table-small">
+            {betterProduct?.info?.totalFat} g
+          </div>
           <div className="col col-md-2 d-flex justify-content-end">
             {compareProduct && (
               <p style={getTextColor("totalFat")}>
@@ -130,7 +138,7 @@ const ProductsCompare = (props: {
           <div className="col col-md-6">
             <small>{translate("saturatedFatUi")}</small>
           </div>
-          <div className="col col-md-4">
+          <div className="col col-md-4 col-table-small">
             <small>{betterProduct?.info?.saturatedFat} g</small>
           </div>
           <div className="col col-md-2 d-flex justify-content-end">
@@ -149,7 +157,7 @@ const ProductsCompare = (props: {
           <div className="col col-md-6">
             <p>{translate("carbohydratesUi")}</p>
           </div>
-          <div className="col col-md-4">
+          <div className="col col-md-4 col-table-small">
             {betterProduct?.info?.carbohydrates} g
           </div>
           <div className="col col-md-2 d-flex justify-content-end">
@@ -168,7 +176,7 @@ const ProductsCompare = (props: {
           <div className="col col-md-6">
             <small>{translate("sugarUi")}</small>
           </div>
-          <div className="col col-md-4">
+          <div className="col col-md-4 col-table-small">
             <small>{betterProduct?.info?.sugars} g</small>
           </div>
           <div className="col col-md-2 d-flex justify-content-end">
@@ -187,7 +195,9 @@ const ProductsCompare = (props: {
           <div className="col col-md-6">
             <p>{translate("fibre")}</p>
           </div>
-          <div className="col col-md-4">{betterProduct?.info?.fibre} g</div>
+          <div className="col col-md-4 col-table-small">
+            {betterProduct?.info?.fibre} g
+          </div>
           <div className="col col-md-2 d-flex justify-content-end">
             {compareProduct && (
               <p style={getTextColor("fibre")}>
@@ -204,7 +214,9 @@ const ProductsCompare = (props: {
           <div className="col col-md-6">
             <p>{translate("protein")}</p>
           </div>
-          <div className="col col-md-4">{betterProduct?.info?.protein} g</div>
+          <div className="col col-md-4 col-table-small">
+            {betterProduct?.info?.protein} g
+          </div>
           <div className="col col-md-2 d-flex justify-content-end">
             {compareProduct && (
               <p style={getTextColor("protein")}>
@@ -221,7 +233,9 @@ const ProductsCompare = (props: {
           <div className="col col-md-6">
             <p>{translate("salt")}</p>
           </div>
-          <div className="col col-md-4">{betterProduct?.info?.salt} g</div>
+          <div className="col col-md-4 col-table-small">
+            {betterProduct?.info?.salt} g
+          </div>
           <div className="col col-md-2 d-flex justify-content-end">
             {compareProduct && (
               <p style={getTextColor("salt")}>
@@ -253,7 +267,10 @@ const ProductsCompare = (props: {
                 className={styles.RemoveButton}
                 onClick={(e) => props.removeProduct(compareProduct?.id ?? 0)}
               >
-                <span className="text-black">X</span>
+                <div className={styles.CrossContainer}>
+                  <span className={styles.RemoveCrossLeft}></span>
+                  <span className={styles.RemoveCrossRight}></span>
+                </div>
               </div>
             </div>
           )}

@@ -26,7 +26,7 @@ translations["fi"] = {
   //ui
   upload: "Lataa",
   productName: "Tuotteen nimi",
-  uploadClipBoard: "Lataa tiedot leikepöydältä",
+  uploadClipBoard: "Syötä tiedot leikepöydältä",
   chooseFile: "Valitse tiedosto",
   noFile: "Ei valittua tiedostoa",
   addProduct: "Lisää tuote",
@@ -40,6 +40,7 @@ translations["fi"] = {
   compare: "Vertaile",
   product: "Tuote",
   remove: "Poista",
+  lang: "fin"
 
 };
 translations["en"] = {
@@ -57,7 +58,7 @@ translations["en"] = {
   //ui
   upload: "Upload",
   productName: "Product name",
-  uploadClipBoard: "Upload from clipboard",
+  uploadClipBoard: "Input from clipboard",
   chooseFile: "Select file",
   noFile: "No file selected",
   addProduct: "Add product",
@@ -71,6 +72,7 @@ translations["en"] = {
   compare: "Compare",
   product: "Product",
   remove: "Remove",
+  lang: "eng",
 };
 
 export const translate = (text: string) => {
